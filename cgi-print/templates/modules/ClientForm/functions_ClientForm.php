@@ -36,54 +36,72 @@ function GetAllCard($dbh){
             <?php GetAllCard($dbh) ?>
           </div>
           <div class="sub-view">
-            <input id="sub-image" type="submit" name="choisir-image" value="choisir">
+            <input id="sub-image" class="btn-sub" type="submit" name="choisir-image" value="choisir">
           </div>
         </form>
         <form id="wish-form" class="wish-form form-size" action="index.php" method="post">
-          <div class="wish-line">
-            <label for="wish-prenom">Vote Prénom :</label>
-            <input id="wish-prenom" type="text" name="prenom-wish" value="">
+          <div class="wish-form-zone">
+            <div class="wish-line">
+              <label for="wish-prenom">Vote Prénom :</label>
+              <div class="special-put">
+                <input class="inputed" id="wish-prenom" type="text" name="prenom-wish">
+              </div>
+            </div>
+            <div class="error-form">
+              <p class="error-form-text"></p>
+            </div>
+            <div class="wish-line">
+              <label for="wish-nom">Votre Nom :</label>
+              <div class="special-put">
+                <input class="inputed" id="wish-nom" type="text" name="nom-wish">
+              </div>
+            </div>
+            <div class="error-form">
+              <p class="error-form-text"></p>
+            </div>
+            <div class="wish-line">
+              <label for="wish-mail">Votre E-mail :</label>
+              <div class="special-put">
+                <input class="inputed" id="wish-mail" type="text" name="email-wish">
+              </div>
+            </div>
+            <div class="error-form">
+              <p class="error-form-text"></p>
+            </div>
+            <div class="wish-line">
+              <label for="wish-prenomD">Prénom du  Destinataire :</label>
+              <div class="special-put">
+                <input class="inputed" id="wish-prenomD" type="text" name="prenom-wishD">
+              </div>
+            </div>
+            <div class="error-form">
+              <p class="error-form-text"></p>
+            </div>
+            <div class="wish-line">
+              <label for="wish-nomD">Nom du Destinataire :</label>
+              <div class="special-put">
+                <input class="inputed" id="wish-nomD" type="text" name="nom-wishD">
+              </div>
+            </div>
+            <div class="error-form">
+              <p class="error-form-text"></p>
+            </div>
+            <div class="wish-line">
+              <label for="wish-mailD">E-mail Destinataire :</label>
+              <div class="special-put">
+                <input class="inputed" id="wish-mailD" type="text" name="email-wishD" value="">
+              </div>
+            </div>
+            <div class="error-form">
+              <p class="error-form-text"></p>
+            </div>
           </div>
-          <div class="error-form">
-            <p class="error-form-text"></p>
+          <input type="hidden" name="choix-carte">
+          <input type="hidden" name="wish-mail">
+          <input type="hidden" name="wish-mailD">
+          <div class="btn-box">
+            <input id="sub-wish" class="btn-sub" type="submit" name="sub-wish" value="Envoyer">
           </div>
-          <div class="wish-line">
-            <label for="wish-nom">Votre Nom :</label>
-            <input id="wish-nom" type="text" name="nom-wish" value="">
-          </div>
-          <div class="error-form">
-            <p class="error-form-text"></p>
-          </div>
-          <div class="wish-line">
-            <label for="wish-mail">Votre E-mail :</label>
-            <input id="wish-mail" type="text" name="email-wish" value="">
-          </div>
-          <div class="error-form">
-            <p class="error-form-text"></p>
-          </div>
-          <div class="wish-line">
-            <label for="wish-prenomD">Prénom du  Destinataire :</label>
-            <input id="wish-prenomD" type="text" name="prenom-wishD" value="">
-          </div>
-          <div class="error-form">
-            <p class="error-form-text"></p>
-          </div>
-          <div class="wish-line">
-            <label for="wish-nomD">Nom du Destinataire :</label>
-            <input id="wish-nomD" type="text" name="nom-wishD" value="">
-          </div>
-          <div class="error-form">
-            <p class="error-form-text"></p>
-          </div>
-          <div class="wish-line">
-            <label for="wish-mailD">E-mail Destinataire :</label>
-            <input id="wish-mailD" type="text" name="email-wishD" value="">
-          </div>
-          <div class="error-form">
-            <p class="error-form-text"></p>
-          </div>
-          <input type="hidden" name="choix-carte" value="">
-          <input id="sub-wish" type="submit" name="sub-wish" value="Envoyer">
         </form>
 
       </div>
@@ -188,12 +206,18 @@ function GetAllCard($dbh){
             error[5].innerHTML = 'Ceci n\'est pas un mail correct'
           }
           if (form_state.prenom == true && form_state.nom == true && form_state.mail == true && form_state.prenomD == true && form_state.nomD == true && form_state.mailD == true) {
-            for (var i = 0; i < e.target.length - 2; i++) {
-              e.target[i].value = ''
-              error[i].innerHTML = ''
-            }
+            let array_mail = []
+            let mailForm = e.target[2].value
+            let mailFormD = e.target[5].value
+            array_mail.push(mailForm)
+            array_mail.push(mailFormD)
+            console.log(array_mail);
             e.target[6].value = choosed_card
-            const formData = new FormData(e.target)
+            e.target[7].value = array_mail[0]
+            e.target[8].value = array_mail[1]
+
+            let form_client = document.getElementById('wish-form')
+            const formData = new FormData(form_client)
             fetch('cgi-print/templates/modules/ClientForm/send-wish.php',{
               method: 'post',
               body: formData
@@ -202,7 +226,11 @@ function GetAllCard($dbh){
                 return result.json()
               }
             }).then(json => {
-              if (json.success === true) {
+              if (json.success == true) {
+                for (var i = 0; i < e.target.length - 4; i++) {
+                  e.target[i].value = ''
+                  error[i].innerHTML = ''
+                }
                 form_success.classList.add('success');
                 form_success.addEventListener('click', (e) => {
                   form_success.classList.remove('success')
@@ -216,6 +244,17 @@ function GetAllCard($dbh){
           }
         })
       })
+      let carte_select = document.querySelectorAll('.label-carte');
+      for (var i = 0; i < carte_select.length; i++) {
+        carte_select[i].addEventListener('click', (e) =>{
+          for (var i = 0; i < carte_select.length; i++) {
+            if (carte_select[i].classList.contains('label-selected')) {
+              carte_select[i].classList.remove('label-selected')
+            }
+          }
+          e.path[2].classList.add('label-selected')
+        })
+      }
     </script>
    <?php
 }?>
