@@ -98,6 +98,59 @@ table {
 	width: 65vw;
 	border: 1px solid red;
 }
+.success-form{
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	z-index: 0;
+	opacity: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(0, 0, 0, 0.8);
+	transition: all .2s ease-in-out;
+	cursor: pointer;
+}
+.success{
+	opacity: 1;
+	z-index: 100;
+}
+.suc{
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.success-box{
+	position: relative;
+	height: 15vh;
+	width: 30vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: white;
+	font-weight: bold;
+	border-radius: 10px;
+	border: 2px solid #CB2028;
+}
+.pos-exit-btn{
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	top: -15px;
+	right: -15px;
+}
+.encard-exit-success{
+	width: 32px;
+	height: 32px;
+	background: white;
+	border-radius: 100%;
+}
+.encard-exit-success{
+
+}
 .card-view{
 	height: 60vh;
 	width: 65vw;
